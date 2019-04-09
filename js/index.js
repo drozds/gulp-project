@@ -1,80 +1,55 @@
+var date = new Date();
+
+let sec = date.getSeconds();
+let min =  date.getMinutes();
+let hours = date.getHours();
 
 function* generateSec() {
-    let sec = 0;
-    if (sec <= 59 ) {
-        var setI = setInterval( () => {
-            console.log(sec + "sec");
-            sec++;
-        }, 1000);
-    }else
-    {
-        clearInterval(setI);
-    }
     
-
-   yield sec;
-}
-
-  
-function* generateMinutes() {
+    var setInt =  setInterval(() => {
+        console.log(hours.toString().padStart(2,[0]) + ":" + min.toString().padStart(2,[0]) + ":" + sec.toString().padStart(2,[0]));
+        if ( sec < 59 ) {
+            sec++;
+        }else {
+            sec = 0;
+            generateMinutes().next();
+        }
+        
+        
+    }, 1000);
    
-   let min = 0;
-    // for (let i = 0; i <= 59; i++ ) {
-        console.log(min + "min");
-        yield* generateSec();
-        min++;
-    // }
-  
+    
 }
+
+
+function* generateMinutes() {
+    if ( min <= 58 ) {
+    for ( min ; min<=59; min++  ) {
+        yield min++;
+    }
+}else {
+    generateHours().next();
+    min = 0;
+    yield min;
+    }
+}
+
 
 function* generateHours() {
-   let h = 0;
-    // for( let i = 0; i<= 11; i++ ) {
-        console.log(h+"h");
-        yield* generateMinutes();
-        h++;
-    // }
-   
+    if ( hours <= 10) {
+        for ( hours; hours <= 12; hours++ ) {
+            yield hours++;
+        }
+        
+    }else {
+        hours = 0;
+        yield hours;
+    }
 }
 
-let generatorH = generateHours();
-for ( let h = 0; h <= 3599; h++) {
-    generatorH.next();
-
+function run() {
+    var clock = generateSec();
+    clock.next();
 }
 
-// function* generateSec() {
-//     let sec = 0;
-//     setInterval( () => {
-//         console.log(sec + "sec");
-//         sec++;
-//     }, 1000);
-
-//    yield sec;
-// }
-
-  
-// function* generateMinutes() {
-   
-   
-//     for (let i = 0; i <= 59; i++ ) {
-//         console.log(i + "min");
-//         yield* generateSec();
-//     }
-  
-// }
-
-// function* generateHours() {
-   
-//     for( let i = 0; i<= 11; i++ ) {
-//         console.log(i+"h");
-//         yield* generateMinutes();
-//     }
-   
-// }
-
-// let generatorH = generateHours();
-// for ( let h = 0; h <= 3599; h++) {
-//     generatorH.next();
-
-// }
+run();
