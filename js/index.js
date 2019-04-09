@@ -7,7 +7,7 @@ let hours = date.getHours();
 function* generateSec() {
     
     var setInt =  setInterval(() => {
-        console.log(hours.toString().padStart(2,[0]) + ":" + min.toString().padStart(2,[0]) + ":" + sec.toString().padStart(2,[0]));
+        document.getElementById("clock").innerHTML = (hours.toString().padStart(2,[0]) + ":" + min.toString().padStart(2,[0]) + ":" + sec.toString().padStart(2,[0])).toString();
         if ( sec < 59 ) {
             sec++;
         }else {
